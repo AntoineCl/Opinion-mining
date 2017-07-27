@@ -27,7 +27,7 @@ voc = {}
 def add_key(dico, key):
   global voc_size
   if key not in dico:
-    dico[key] = intern_dico.copy()
+    dico[key] = intern_dico.copy() # on initialise les occurence a zero
     voc_size += 1
 
 def condition_opscore(word, threshold):
@@ -58,7 +58,7 @@ def voc_basis_sentiword(): # sans pos tag mais avec la condition sur le score d'
     if condition(id_swn):
       add_key(voc, nam+'.x')
     i += 1
-    print i
+    # print i
     if i == stop:
       break
 
