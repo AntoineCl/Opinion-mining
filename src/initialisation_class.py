@@ -7,6 +7,7 @@ sum_learning = 0
 def initialize_class():
   for cl in class_list:
     class_dico[cl] = {'nbr_occ': 0}
+  print 'rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr_init_class'
 
 # return the number of document of learning set
 def update_sum_learning():
@@ -17,5 +18,3 @@ def update_sum_learning():
     raise Exception('Problem of counting of learning document')
   return x
 
-if __name__ == '__main__':
-  initialize_class()

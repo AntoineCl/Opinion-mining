@@ -23,6 +23,7 @@ swn_list = swn.all_senti_synsets()
 stop = 100
 
 voc = {}
+vocabulary = voc
 
 def add_key(dico, key):
   global voc_size
@@ -58,7 +59,7 @@ def voc_basis_sentiword(): # sans pos tag mais avec la condition sur le score d'
     if condition(id_swn):
       add_key(voc, nam+'.x')
     i += 1
-    # print i
+    print i
     if i == stop:
       break
 
@@ -117,9 +118,14 @@ def voc_pos_sentiword(): # avec pos tag et la condition sur le score d'opinion
     if i == stop:
       break
 
+def define_voc(bool_pos):
+  print 'ccccccccccccccccccccccccccccccc_define_voc'
+  if bool_pos:
+    voc_pos_sentiword()
+  else:
+    voc_basis_sentiword()
 
-
-voc_basis_sentiword()
+# voc_basis_sentiword()
 # voc_pos_sentiword()
 
 # print voc

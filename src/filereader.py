@@ -39,6 +39,7 @@ def formatting(tokens, bool_pos):
 
 # input: filename : absolute path
 def tokenize_file(filename, bool_pos):
+  print 'tokenize : ' + filename
   filereader = open(filename, 'r')
   string = filereader.read()
   filereader.close()
