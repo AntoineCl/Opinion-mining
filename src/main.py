@@ -11,12 +11,16 @@ print 'classification imported'
 
 
 initialize_class()
+print 'class initialized'
 
 define_voc()
+print 'voc defined'
 
 learning()
+print 'learning terminated'
 
 result = classification()
+print 'classification terminated'
 
 print '########################################'
 

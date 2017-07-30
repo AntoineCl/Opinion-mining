@@ -54,15 +54,9 @@ def tokenize_file(filename):
 
 
 
-sentence = "At eight o'clock on Thursday morning, Arthur didn't feel very good and Jesus is a good god. The dog is going to eat. I'm angry. The car I've bought is red."
+# sentence = "At eight o'clock on Thursday morning, Arthur didn't feel very good and Jesus is a good god. The dog is going to eat. I'm angry. The car I've bought is red."
 
-tokens = nltk.word_tokenize(sentence)
+# tokens = nltk.word_tokenize(sentence)
 # print tokens
 
 
-
-formatting(tokens)
-formatting(tokens)
-
-# tokenize_file('/home/antoine/documents/tmp/tmp1.txt', False)
-# tokenize_file('/home/antoine/documents/tmp/tmp1.txt', True)

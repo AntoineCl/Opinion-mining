@@ -13,11 +13,10 @@ for name in class_list:
 from nltk.corpus import wordnet as wn
 from nltk.corpus import sentiwordnet as swn
 
-#~ wn_list = wn.all_lemma_names()
 wn_list = wn.all_synsets()
 swn_list = swn.all_senti_synsets()
 
-stop = 100
+stop = 1000
 # stop = 150000
 
 def add_key(dico, key):
@@ -40,22 +39,15 @@ def condition(word):
 def voc_basis_sentiword(): # sans pos tag mais avec la condition sur le score d'opinion
   i = 0
   for w in wn_list:
-    # print w # w = la ref wordnet
     tmp = str(w.name()).split('.')
-    # print tmp
     if len(tmp) >= 4:
       continue
     nam = tmp[0] # nam = le nom comme il est dans le texte
-    # print nam
-
     if nam+'.x' in voc:
       continue
-
-    # print list(swn.senti_synsets(nam))
     id_swn = list(swn.senti_synsets(nam))[0] # id_swn = la ref sentiword
-    # print id_swn
     if condition(id_swn):
-      add_key(voc, nam+'.x')
+      add_key(voc, nam + '.x')
     i += 1
     print i
     if i == stop:
@@ -64,15 +56,10 @@ def voc_basis_sentiword(): # sans pos tag mais avec la condition sur le score d'
 def voc_pos_sentiword(): # avec pos tag et la condition sur le score d'opinion
   i = 0
   for w in wn_list:
-    # print w # w = la ref wordnet
     tmp = str(w.name()).split('.')
-    # print tmp
     if len(tmp) >= 4:
       continue # on ignore les cas particulier ou le nom contient un '.' par facilite
     nam = tmp[0] # nam = le nom comme il est dans le texte
-    # print nam
-    # print list(swn.senti_synsets(nam))
-
     if nam+'.n' in voc or nam+'.a' in voc or nam+'.v' in voc or nam+'.r' in voc:
       continue
 
@@ -100,17 +87,6 @@ def voc_pos_sentiword(): # avec pos tag et la condition sur le score d'opinion
       if condition(id_swn_r):
         add_key(voc, nam+'.r')
 
-    # list_s = list(swn.senti_synsets(nam, 's')) # pas besoin car deja compris dans les adjective
-    # if list_s != []:
-      # id_swn_s = list_s[0]
-      # if condition(id_swn_s):
-        # add_key(voc, nam+'.s')
-
-    # print list_n
-    # print list_a
-    # print list_v
-    # print list_r
-
     i += 1
     # print i
     if i == stop:
@@ -133,13 +109,6 @@ def get_voc_count(word, classname):
 
 # voc_basis_sentiword()
 # voc_pos_sentiword()
-
-# print voc
-# print ''
-# print voc_size
-
-
-
 
 
 

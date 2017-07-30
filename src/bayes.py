@@ -3,10 +3,12 @@ import random
 import os
 from name_class import class_list
 from initialisation_class import nbr_cl, class_dico, get_sum_learning
-from vocabulary import voc, get_voc, get_voc_size, get_voc_count
+from vocabulary import get_voc, get_voc_size, get_voc_count
 from training import training_list
 from filereader import tokenize_string, tokenize_file
 
+voc = {}
+voc_size = 0
 
 
 def proba_naive_class(cl):
@@ -18,13 +20,14 @@ def proba_weighted_class(cl):
 def add_one(word, cl):
   count = get_voc_count(word, cl)
   summ = 0
-  # print 'add_one voc :'
-  # print voc
-  # print get_voc()
   for w in voc:
     summ += voc[w][cl]
-  # print 'addone : get_voc_size = ' + str(get_voc_size())
-  return (count + 1) / (get_voc_size() + summ)
+  # print 'add_one :'
+  # print '  count : ' + str(count)
+  # print '  voc_size : ' + str(voc_size)
+  # print '  summ : ' + str(summ)
+  # print '    ' + str((count + 1) / (voc_size + summ))
+  return (count + 1.) / (voc_size + summ)
 
 def smoothing(word, cl):
   return add_one(word, cl)
@@ -49,7 +52,7 @@ def proba_doc(doc, cl):
       if w in voc_tmp:
         voc_tmp[w] += 1
       else:
-        voc_tmp[w] = 0
+        voc_tmp[w] = 1
     else:
       continue
   for w in voc_tmp:
@@ -62,7 +65,11 @@ def proba_doc(doc, cl):
 # doc: a document
 # return the probability that doc is of class cl by naive bayesian method
 def estim_bayes(doc, cl):
-  return proba_weighted_class(cl)*proba_doc(doc, cl)
+  a = proba_weighted_class(cl)
+  b = proba_doc(doc, cl)
+  print str(a) + ' * ' + str(b)
+  return a * b
+  # return proba_weighted_class(cl)*proba_doc(doc, cl)
 
 def estim_random(doc, cl):
   x = random.random()
@@ -81,6 +88,9 @@ def doc_classification(document):
 
 
 def classification():
+  global voc
+  voc = get_voc()
+  voc_size = get_voc_size()
   classified = {}
   n = len(training_list)
   tokens = []
@@ -106,5 +116,4 @@ def classification():
 
 
 
-# print classification('f', estim_random)
 
