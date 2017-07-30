@@ -6,16 +6,21 @@ from vocabulary import define_voc
 print 'voc imported'
 from learning_class import learning
 print 'learning imported'
+from bayes import classification
+print 'classification imported'
 
-print 'bbbbbbbbbbbbbbbbbbbbbbbbb_first_main'
 
 initialize_class()
 
-define_voc(False)
+define_voc()
 
-learning(False)
+learning()
 
+result = classification()
 
+print '########################################'
+
+print result
 
 
 # mettre bool_pos dans un fichier modifiable par l'utilisateur

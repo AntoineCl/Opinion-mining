@@ -1,17 +1,14 @@
 from name_class import class_list
+from pos_tag import bool_pos
 
-# vocabulary structure: {word : {classe1 : nbr_occ_in_classe1,
+# voc structure: {word : {classe1 : nbr_occ_in_classe1,
 #                                classe2 : ...}}
-vocabulary = {}
-# global voc_size
+voc = {}
 voc_size = 0
 intern_dico = {}
 
 for name in class_list:
   intern_dico[name] = 0
-
-# def initialize_voc():
-  # to implement
 
 from nltk.corpus import wordnet as wn
 from nltk.corpus import sentiwordnet as swn
@@ -21,15 +18,16 @@ wn_list = wn.all_synsets()
 swn_list = swn.all_senti_synsets()
 
 stop = 100
-
-voc = {}
-vocabulary = voc
+# stop = 150000
 
 def add_key(dico, key):
   global voc_size
   if key not in dico:
     dico[key] = intern_dico.copy() # on initialise les occurence a zero
     voc_size += 1
+
+def voc_count_one(word, classname):
+  voc[word][classname] += 1 # on met a jour les occurence de vocabulaire
 
 def condition_opscore(word, threshold):
   return word.pos_score() >= threshold or word.neg_score() >= threshold
@@ -118,12 +116,20 @@ def voc_pos_sentiword(): # avec pos tag et la condition sur le score d'opinion
     if i == stop:
       break
 
-def define_voc(bool_pos):
-  print 'ccccccccccccccccccccccccccccccc_define_voc'
+def define_voc():
   if bool_pos:
     voc_pos_sentiword()
   else:
     voc_basis_sentiword()
+
+def get_voc():
+  return voc
+
+def get_voc_size():
+  return voc_size
+
+def get_voc_count(word, classname):
+  return voc[word][classname]
 
 # voc_basis_sentiword()
 # voc_pos_sentiword()

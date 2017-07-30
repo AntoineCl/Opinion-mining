@@ -1,8 +1,8 @@
 import os
 import nltk
-from vocabulary import vocabulary
+from vocabulary import voc, get_voc, voc_count_one
 from filereader import tokenize_file
-from initialisation_class import class_dico
+from initialisation_class import add_count
 from learning_path import learning_path_list
 from name_class import class_list
 
@@ -11,54 +11,51 @@ from name_class import class_list
 
 def handle_token(tokens, classname):
   for t in tokens:
-    if t in vocabulary:
-      vocabulary[t][classname] += 1 # on met a jour les occurence de vocabulaire
+    if t in voc:
+      voc_count_one(t, classname)
 
 
-# input: directory: absolute path
-def learning_dir(directory, classname, bool_pos): # tous les fichiers d'un repertoire
-  list_file = os.listdir(directory)
-  list_tokens = []
-  class_dico[classname]['nbr_occ'] += len(list_file)
-  # print list_file
-  for f in list_file:
+def learning_dir(directory, classname): # tous les fichiers d'un repertoire
+  file_list = os.listdir(directory)
+  tokens_list = []
+  add_count(classname, len(file_list))
+  # print file_list
+  for f in file_list:
     # print f
     # print directory + f
-    tokens = tokenize_file(directory + f, bool_pos)
+    tokens = tokenize_file(directory + f)
     handle_token(tokens, classname)
-    list_tokens += tokens
+    tokens_list += tokens
     # print tokens
-    # print list_tokens
+    # print tokens_list
 
 
-# input: filename: absolute path
-def learning_file(filename, classname, bool_pos): # toutes les lignes d'un fichier
-  tokens = tokenize_file(filename, bool_pos)
+def learning_file(filename, classname): # toutes les lignes d'un fichier
+  tokens = tokenize_file(filename)
   handle_token(tokens, classname)
 
   filereader = open(filename, 'r')
   line = filereader.readline()
-
+# 'modifier cette partie en utilisant tokenize_string'
   i = 1
   while line != '':
     line = filereader.readline()
     i += 1
-    print i
+    # print i
 
   filereader.close()
-  class_dico[classname]['nbr_occ'] += len(i)
+  add_count(classname, i)
 
 
-def learning(bool_pos):
-  print 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_learning'
-  print vocabulary
+def learning():
+  print get_voc()
   n = len(learning_path_list)
   for i in range(n):
     if os.path.isdir(learning_path_list[i]):
-      learning_dir(learning_path_list[i], class_list[i], bool_pos)
+      learning_dir(learning_path_list[i], class_list[i])
     else:
-      learning_file(learning_path_list[i], class_list[i], bool_pos)
-  print vocabulary
+      learning_file(learning_path_list[i], class_list[i])
+  print get_voc()
 
 
 
