@@ -16,7 +16,7 @@ from nltk.corpus import sentiwordnet as swn
 wn_list = wn.all_synsets()
 swn_list = swn.all_senti_synsets()
 
-stop = 1000
+stop = 4000
 # stop = 150000
 
 def add_key(dico, key):

@@ -8,24 +8,33 @@ from learning_class import learning
 print 'learning imported'
 from bayes import classification
 print 'classification imported'
+from statistics import *
 
 
-initialize_class()
-print 'class initialized'
+def execute():
+  global result
 
-define_voc()
-print 'voc defined'
+  initialize_class()
+  print 'class initialized'
 
-learning()
-print 'learning terminated'
+  define_voc()
+  print 'voc defined'
 
-result = classification()
-print 'classification terminated'
+  learning()
+  print 'learning terminated'
 
-print '########################################'
+  result = classification()
+  print 'classification terminated'
 
-print result
+  print '########################################'
 
+  print result
+  print ""
+  # return result
 
-# mettre bool_pos dans un fichier modifiable par l'utilisateur
+  stats(result)
+
+if __name__ == '__main__':
+  execute()
+
 # faire fonction qui supprime les .directory des ensemble d'apprentissage
