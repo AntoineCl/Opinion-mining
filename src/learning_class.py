@@ -3,7 +3,7 @@ import nltk
 from vocabulary import voc, get_voc, voc_count_one
 from filereader import tokenize_file
 from initialisation_class import add_count
-from learning_path import learning_path_list
+from learning_set import learning_path
 from name_class import class_list
 
 
@@ -49,12 +49,12 @@ def learning_file(filename, classname): # toutes les lignes d'un fichier
 
 def learning():
   print get_voc()
-  n = len(learning_path_list)
+  n = len(learning_path)
   for i in range(n):
-    if os.path.isdir(learning_path_list[i]):
-      learning_dir(learning_path_list[i], class_list[i])
+    if os.path.isdir(learning_path[i]):
+      learning_dir(learning_path[i], class_list[i])
     else:
-      learning_file(learning_path_list[i], class_list[i])
+      learning_file(learning_path[i], class_list[i])
   print get_voc()
 
 

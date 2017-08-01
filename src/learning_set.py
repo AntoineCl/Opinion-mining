@@ -1,6 +1,6 @@
 
 # warning: path in same order than class_list in name_class.py
-learning_path_list = [
+learning_path = [
                       '../data/pos/',
                       '../data/neg/'
                       # '/home/antoine/documents/bac5/anum/review/data/movie_data_review/1kpos1kneg/review_polarity/txt_sentoken/pos/',

@@ -4,7 +4,7 @@ import os
 from name_class import class_list
 from initialisation_class import nbr_cl, class_dico, get_sum_learning
 from vocabulary import get_voc, get_voc_size, get_voc_count
-from training import training_list
+from test_set import test_path
 from filereader import tokenize_string, tokenize_file
 
 voc = {}
@@ -92,26 +92,26 @@ def classification():
   voc = get_voc()
   voc_size = get_voc_size()
   classified = {}
-  n = len(training_list)
+  n = len(test_path)
   tokens = []
   for i in range(n):
-    if os.path.isdir(training_list[i]):
-      file_list = os.listdir(training_list[i])
+    if os.path.isdir(test_path[i]):
+      file_list = os.listdir(test_path[i])
       m = len(file_list)
       for j in range(m):
-        tokens = tokenize_file(training_list[i] + file_list[j])
-        classified[training_list[i] + file_list[j]] = doc_classification(tokens)
+        tokens = tokenize_file(test_path[i] + file_list[j])
+        classified[test_path[i] + file_list[j]] = doc_classification(tokens)
     else:
-        filereader = open(training_list[i], 'r')
+        filereader = open(test_path[i], 'r')
         line = filereader.readline()
         j = 1
         while line != '':
           tokens = tokenize_string(line)
-          classified[training_list[i] + ' line ' + str(j)] = doc_classification(tokens)
+          classified[test_path[i] + ' line ' + str(j)] = doc_classification(tokens)
           line = filereader.readline()
           j += 1
         filereader.close()
-    print 'classified : ' + training_list[i]
+    print 'classified : ' + test_path[i]
   return classified
 
 

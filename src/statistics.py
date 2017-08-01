@@ -1,5 +1,5 @@
 import os
-from training import training_list
+from test_set import test_path
 from name_class import class_list
 
 
@@ -9,10 +9,10 @@ def stats(result):
   good_classified = 0
   n = len(class_list)
   for i in range(n):
-    if os.path.isdir(training_list[i]):
-      file_list = os.listdir(training_list[i])
+    if os.path.isdir(test_path[i]):
+      file_list = os.listdir(test_path[i])
       for f in file_list:
-        if result[training_list[i] + f] == class_list[i]:
+        if result[test_path[i] + f] == class_list[i]:
           good_classified += 1
         data += 1
     else:
@@ -26,3 +26,4 @@ def stats(result):
   # vocubulaire:
     # nbr mot
     # score d'opinion si necessaire
+  # ensemble d'apprentissage et d'entrainement
