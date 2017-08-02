@@ -20,10 +20,3 @@ def stats(result):
 
   print float(good_classified) / data
 
-# modifier code pour mettre en parametre:
-  # presence ou frequence
-  # avec ou sans POS tag
-  # vocubulaire:
-    # nbr mot
-    # score d'opinion si necessaire
-  # ensemble d'apprentissage et d'entrainement

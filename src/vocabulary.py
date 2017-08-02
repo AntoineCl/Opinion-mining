@@ -1,14 +1,4 @@
 from name_class import class_list
-from pos_tag import bool_pos
-
-# voc structure: {word : {classe1 : nbr_occ_in_classe1,
-#                                classe2 : ...}}
-voc = {}
-voc_size = 0
-intern_dico = {}
-
-for name in class_list:
-  intern_dico[name] = 0
 
 from nltk.corpus import wordnet as wn
 from nltk.corpus import sentiwordnet as swn
@@ -16,27 +6,33 @@ from nltk.corpus import sentiwordnet as swn
 wn_list = wn.all_synsets()
 swn_list = swn.all_senti_synsets()
 
-stop = 4000
-# stop = 150000
+intern_dico = {}
+
+for name in class_list:
+  intern_dico[name] = 0
+
+
+stop = 1000
+# stop = 1500000
 
 def add_key(dico, key):
   global voc_size
   if key not in dico:
     dico[key] = intern_dico.copy() # on initialise les occurence a zero
-    voc_size += 1
+    # voc_size += 1
 
-def voc_count_one(word, classname):
+def voc_count_one(voc, word, classname):
   voc[word][classname] += 1 # on met a jour les occurence de vocabulaire
 
 def condition_opscore(word, threshold):
-  return word.pos_score() >= threshold or word.neg_score() >= threshold
-
-def condition(word):
-  # return condition_opscore(word, 0.2)
-  return True
+  if threshold == 0.:
+    return True
+  else:
+    return word.pos_score() >= threshold or word.neg_score() >= threshold
 
 # return
-def voc_basis_sentiword(): # sans pos tag mais avec la condition sur le score d'opinion
+def voc_basis_sentiword(threshold): # sans pos tag mais avec la condition sur le score d'opinion
+  voc = {}
   i = 0
   for w in wn_list:
     tmp = str(w.name()).split('.')
@@ -46,14 +42,16 @@ def voc_basis_sentiword(): # sans pos tag mais avec la condition sur le score d'
     if nam+'.x' in voc:
       continue
     id_swn = list(swn.senti_synsets(nam))[0] # id_swn = la ref sentiword
-    if condition(id_swn):
+    if condition_opscore(id_swn, threshold):
       add_key(voc, nam + '.x')
     i += 1
-    print i
+    # print i
     if i == stop:
       break
+  return voc
 
-def voc_pos_sentiword(): # avec pos tag et la condition sur le score d'opinion
+def voc_pos_sentiword(threshold): # avec pos tag et la condition sur le score d'opinion
+  voc = {}
   i = 0
   for w in wn_list:
     tmp = str(w.name()).split('.')
@@ -66,49 +64,44 @@ def voc_pos_sentiword(): # avec pos tag et la condition sur le score d'opinion
     list_n = list(swn.senti_synsets(nam, 'n'))
     if list_n != []:
       id_swn_n = list_n[0]
-      if condition(id_swn_n):
+      if condition_opscore(id_swn_n, threshold):
         add_key(voc, nam+'.n')
 
     list_a = list(swn.senti_synsets(nam, 'a'))
     if list_a != []:
       id_swn_a = list_a[0]
-      if condition(id_swn_a):
+      if condition_opscore(id_swn_a, threshold):
         add_key(voc, nam+'.a')
 
     list_v = list(swn.senti_synsets(nam, 'v'))
     if list_v != []:
       id_swn_v = list_v[0]
-      if condition(id_swn_v):
+      if condition_opscore(id_swn_v, threshold):
         add_key(voc, nam+'.v')
 
     list_r = list(swn.senti_synsets(nam, 'r'))
     if list_r != []:
       id_swn_r = list_r[0]
-      if condition(id_swn_r):
+      if condition_opscore(id_swn_r, threshold):
         add_key(voc, nam+'.r')
 
     i += 1
     # print i
     if i == stop:
       break
-
-def define_voc():
-  if bool_pos:
-    voc_pos_sentiword()
-  else:
-    voc_basis_sentiword()
-
-def get_voc():
   return voc
 
-def get_voc_size():
-  return voc_size
+# voc structure: {word : {classe1 : nbr_occ_in_classe1, classe2 : ...}, ...}
+def define_voc(bool_pos, threshold):
+  if bool_pos:
+    return voc_pos_sentiword(threshold)
+  else:
+    return voc_basis_sentiword(threshold)
 
-def get_voc_count(word, classname):
+
+def get_voc_count(voc, word, classname):
   return voc[word][classname]
 
-# voc_basis_sentiword()
-# voc_pos_sentiword()
 
 
 

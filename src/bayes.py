@@ -3,7 +3,7 @@ import random
 import os
 from name_class import class_list
 from initialisation_class import nbr_cl, class_dico, get_sum_learning
-from vocabulary import get_voc, get_voc_size, get_voc_count
+from vocabulary import get_voc_count
 from test_set import test_path
 from filereader import tokenize_string, tokenize_file
 
@@ -17,8 +17,8 @@ def proba_naive_class(cl):
 def proba_weighted_class(cl):
   return float(class_dico[cl]['nbr_occ'])/get_sum_learning()
 
-def add_one(word, cl):
-  count = get_voc_count(word, cl)
+def add_one(voc, word, cl):
+  count = get_voc_count(voc, word, cl)
   summ = 0
   for w in voc:
     summ += voc[w][cl]
@@ -29,8 +29,8 @@ def add_one(word, cl):
   # print '    ' + str((count + 1) / (voc_size + summ))
   return (count + 1.) / (voc_size + summ)
 
-def smoothing(word, cl):
-  return add_one(word, cl)
+def smoothing(voc, word, cl):
+  return add_one(voc, word, cl)
 
 def frequency(n):
   return n
@@ -44,7 +44,7 @@ def presence(n):
 # doc: a document
 # cl: a class
 # return product(P(w|cl)**exp)
-def proba_doc(doc, cl):
+def proba_doc(voc, pres_bool, doc, cl):
   prod = 1
   voc_tmp = {}
   for w in doc:
@@ -56,17 +56,18 @@ def proba_doc(doc, cl):
     else:
       continue
   for w in voc_tmp:
-    exp = frequency(voc_tmp[w])
-    # exp = presence(voc_tmp[w])
-    prod *= smoothing(w, cl) ** exp
+    # exp = frequency(voc_tmp[w])
+    exp = presence(voc_tmp[w])
+    exp = presence(voc_tmp[w]) if pres_bool else frequency(voc_tmp[w])
+    prod *= smoothing(voc, w, cl) ** exp
   return prod
 
 # cl: a class
 # doc: a document
 # return the probability that doc is of class cl by naive bayesian method
-def estim_bayes(doc, cl):
+def estim_bayes(voc, pres_bool, doc, cl):
   a = proba_weighted_class(cl)
-  b = proba_doc(doc, cl)
+  b = proba_doc(voc, pres_bool, doc, cl)
   print str(a) + ' * ' + str(b)
   return a * b
   # return proba_weighted_class(cl)*proba_doc(doc, cl)
@@ -76,21 +77,17 @@ def estim_random(doc, cl):
   return x
 
 # document: the document to be classified
-# estim: the method for estimating probabilities
 # return the most likely class according to estim method
-def doc_classification(document):
+def doc_classification(voc, pres_bool, document):
   class_estim = []
   for i in range(nbr_cl):
-    class_estim += [estim_bayes(document, class_list[i])]
+    class_estim += [estim_bayes(voc, pres_bool, document, class_list[i])]
   i = np.argmax(class_estim)
   print class_estim
   return class_list[i]
 
 
-def classification():
-  global voc
-  voc = get_voc()
-  voc_size = get_voc_size()
+def classification(voc, bool_pos, pres_bool):
   classified = {}
   n = len(test_path)
   tokens = []
@@ -99,15 +96,15 @@ def classification():
       file_list = os.listdir(test_path[i])
       m = len(file_list)
       for j in range(m):
-        tokens = tokenize_file(test_path[i] + file_list[j])
-        classified[test_path[i] + file_list[j]] = doc_classification(tokens)
+        tokens = tokenize_file(bool_pos, test_path[i] + file_list[j])
+        classified[test_path[i] + file_list[j]] = doc_classification(voc, pres_bool, tokens)
     else:
         filereader = open(test_path[i], 'r')
         line = filereader.readline()
         j = 1
         while line != '':
-          tokens = tokenize_string(line)
-          classified[test_path[i] + ' line ' + str(j)] = doc_classification(tokens)
+          tokens = tokenize_string(bool_pos, line)
+          classified[test_path[i] + ' line ' + str(j)] = doc_classification(voc, pres_bool, tokens)
           line = filereader.readline()
           j += 1
         filereader.close()

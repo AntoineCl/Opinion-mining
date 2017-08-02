@@ -10,23 +10,23 @@ from bayes import classification
 print 'classification imported'
 from statistics import *
 
+# bool_pos: bool
+# threshold: float (score d'opinion entre 0. et 1., 0 pour pas de condition)
+# pres_bool: bool True ssi on utilise la presence au lieu de la frequence (voir bayes.py)
 
-def execute():
-  global result
+def execute(bool_pos, threshold, pres_bool):
 
   initialize_class()
   print 'class initialized'
 
-  define_voc()
+  voc = define_voc(bool_pos, threshold)
   print 'voc defined'
 
-  learning()
+  learning(voc, bool_pos)
   print 'learning terminated'
 
-  result = classification()
+  result = classification(voc, bool_pos, pres_bool)
   print 'classification terminated'
-
-  print '########################################'
 
   print result
   print ""
@@ -35,6 +35,7 @@ def execute():
   stats(result)
 
 if __name__ == '__main__':
-  execute()
+  execute(False, 0.0, False)
+  # execute(True, 0., False)
 
 # faire fonction qui supprime les .directory des ensemble d'apprentissage

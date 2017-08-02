@@ -1,6 +1,5 @@
 import os
 import nltk
-from pos_tag import bool_pos
 
 # rename the pos tag of nltk for sentiword
 pos_conversion = {
@@ -19,7 +18,7 @@ pos_conversion = {
                   }
 
 
-def formatting(tokens):
+def formatting(bool_pos, tokens):
   # print tokens
   if not bool_pos:
     newtokens = list(map(lambda t : t + '.x', tokens))
@@ -36,20 +35,20 @@ def formatting(tokens):
   # print newtokens
   return newtokens
 
-def tokenize_string(string):
+def tokenize_string(bool_pos, string):
   tokens = nltk.word_tokenize(string)
   # print tokens
-  newtokens = formatting(tokens)
+  newtokens = formatting(bool_pos, tokens)
   # print newtokens
   return newtokens
 
 # input: filename : absolute path
-def tokenize_file(filename):
+def tokenize_file(bool_pos, filename):
   print 'tokenize : ' + filename
   filereader = open(filename, 'r')
   string = filereader.read()
   filereader.close()
-  tokens = tokenize_string(string)
+  tokens = tokenize_string(bool_pos, string)
   return tokens
 
 
