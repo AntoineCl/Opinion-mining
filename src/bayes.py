@@ -1,10 +1,8 @@
 import numpy as np
-import random
 import os
-from name_class import class_list
+from user_param import class_name, pres_bool, test_path
 from initialisation_class import nbr_cl, class_dico, get_sum_learning
 from vocabulary import get_voc, get_voc_size, get_voc_count
-from test_set import test_path
 from filereader import tokenize_string, tokenize_file
 
 voc = {}
@@ -47,6 +45,7 @@ def presence(n):
 def proba_doc(doc, cl):
   prod = 1
   voc_tmp = {}
+  method = presence if pres_bool else frequency
   for w in doc:
     if w in voc:
       if w in voc_tmp:
@@ -56,8 +55,7 @@ def proba_doc(doc, cl):
     else:
       continue
   for w in voc_tmp:
-    exp = frequency(voc_tmp[w])
-    # exp = presence(voc_tmp[w])
+    exp = method(voc_tmp[w])
     prod *= smoothing(w, cl) ** exp
   return prod
 
@@ -71,20 +69,16 @@ def estim_bayes(doc, cl):
   return a * b
   # return proba_weighted_class(cl)*proba_doc(doc, cl)
 
-def estim_random(doc, cl):
-  x = random.random()
-  return x
-
 # document: the document to be classified
 # estim: the method for estimating probabilities
 # return the most likely class according to estim method
 def doc_classification(document):
   class_estim = []
   for i in range(nbr_cl):
-    class_estim += [estim_bayes(document, class_list[i])]
+    class_estim += [estim_bayes(document, class_name[i])]
   i = np.argmax(class_estim)
-  print class_estim
-  return class_list[i]
+  # print class_estim
+  return class_name[i]
 
 
 def classification():

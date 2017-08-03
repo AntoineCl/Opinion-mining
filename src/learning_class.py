@@ -3,8 +3,7 @@ import nltk
 from vocabulary import voc, get_voc, voc_count_one
 from filereader import tokenize_file
 from initialisation_class import add_count
-from learning_set import learning_path
-from name_class import class_list
+from user_param import class_name, learning_path
 
 
 
@@ -52,9 +51,9 @@ def learning():
   n = len(learning_path)
   for i in range(n):
     if os.path.isdir(learning_path[i]):
-      learning_dir(learning_path[i], class_list[i])
+      learning_dir(learning_path[i], class_name[i])
     else:
-      learning_file(learning_path[i], class_list[i])
+      learning_file(learning_path[i], class_name[i])
   print get_voc()
 
 

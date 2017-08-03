@@ -1,6 +1,6 @@
 import os
 import nltk
-from pos_tag import bool_pos
+from user_param import bool_pos
 
 # rename the pos tag of nltk for sentiword
 pos_conversion = {
