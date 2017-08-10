@@ -1,48 +1,110 @@
+"""
+
 import numpy as np
 import os
 from user_param import class_name, pres_bool, test_path
-from initialisation_class import nbr_cl, class_dico, get_sum_learning
+from initialisation_class import nbr_cl, class_dict, get_sum_learning
 from vocabulary import get_voc, get_voc_size, get_voc_count
 from filereader import tokenize_string, tokenize_file
 
 voc = {}
-voc_size = 0
+"""dict: vocabulary used for classification
+"""
 
+voc_size = 0
+"""int: size of vocabulary
+"""
 
 def proba_naive_class(cl):
+  """Return the uniform probability of a class.
+
+  Parameters
+  ----------
+  cl : string
+    a name class
+
+  Returns
+  -------
+  float
+  """
   return 1./nbr_cl
 
 def proba_weighted_class(cl):
-  return float(class_dico[cl]['nbr_occ'])/get_sum_learning()
+  """Return the weighted probability of a class.
+
+  Parameters
+  ----------
+  cl : str
+    a name class
+
+  Returns
+  -------
+  float
+    The ratio of number of document in 'cl' class on total number of document
+  """
+  return float(class_dict[cl]['nbr_occ'])/get_sum_learning()
 
 def add_one(word, cl):
+  """Apply add-one smoothing (see theory).
+
+  Parameters
+  ----------
+  word : str
+  cl : str
+
+  Returns
+  -------
+  float
+  """
   count = get_voc_count(word, cl)
   summ = 0
   for w in voc:
     summ += voc[w][cl]
-  # print 'add_one :'
-  # print '  count : ' + str(count)
-  # print '  voc_size : ' + str(voc_size)
-  # print '  summ : ' + str(summ)
-  # print '    ' + str((count + 1) / (voc_size + summ))
   return (count + 1.) / (voc_size + summ)
 
 def smoothing(word, cl):
+  """Apply the selected smoothing.
+
+  Parameters
+  ----------
+  word : str
+  cl : str
+
+  Returns
+  -------
+  float
+  """
   return add_one(word, cl)
 
 def frequency(n):
   return n
 
 def presence(n):
+  """This function is intended to project an integer in {0, 1}.
+  See theory for utility.
+  """
   if n == 0:
     return 0
   else:
     return 1
 
-# doc: a document
-# cl: a class
-# return product(P(w|cl)**exp)
 def proba_doc(doc, cl):
+  """Return the probability a document knowing a class under assumptions of the
+  theory.
+  See theory for computation method.
+
+  Parameters
+  ----------
+  doc : list
+    a document tokenized into a list
+  cl : str
+    a class name
+
+  Returns
+  -------
+  float
+    return product(P(w|cl)**exp)
+  """
   prod = 1
   voc_tmp = {}
   method = presence if pres_bool else frequency
@@ -59,30 +121,61 @@ def proba_doc(doc, cl):
     prod *= smoothing(w, cl) ** exp
   return prod
 
-# cl: a class
-# doc: a document
-# return the probability that doc is of class cl by naive bayesian method
 def estim_bayes(doc, cl):
+  """Return the probability a document belong to a class under assumptions of
+  the theory.
+  See theory for computation method.
+
+  Parameters
+  ----------
+  doc : list
+    a document tokenized into a list
+  cl : str
+    a class name
+
+  Returns
+  -------
+  float
+    Return the probability of doc multiply by the probability of cl
+  """
   a = proba_weighted_class(cl)
   b = proba_doc(doc, cl)
   print str(a) + ' * ' + str(b)
   return a * b
   # return proba_weighted_class(cl)*proba_doc(doc, cl)
 
-# document: the document to be classified
-# estim: the method for estimating probabilities
-# return the most likely class according to estim method
-def doc_classification(document):
+def doc_classification(doc):
+  """Return the most likely class of a document.
+
+  Parameters
+  ----------
+  doc : list
+    a document tokenized into a list
+
+  Returns
+  -------
+  str
+    the name of the most likely class
+  """
   class_estim = []
   for i in range(nbr_cl):
-    class_estim += [estim_bayes(document, class_name[i])]
+    class_estim += [estim_bayes(doc, class_name[i])]
   i = np.argmax(class_estim)
-  # print class_estim
   return class_name[i]
 
-
 def classification():
+  """Return all the documents of test set with their estimated classification.
+
+  Parameters
+  ----------
+
+  Returns
+  -------
+  dict
+    The keys are paths of test set and values are their estimated classification.
+  """
   global voc
+  global voc_size
   voc = get_voc()
   voc_size = get_voc_size()
   classified = {}

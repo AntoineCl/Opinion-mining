@@ -1,41 +1,79 @@
+"""This file contains main function for learning phase.
+"""
+
 import os
 import nltk
-from vocabulary import voc, get_voc, voc_count_one
+from vocabulary import voc, get_voc
 from filereader import tokenize_file
 from initialisation_class import add_count
 from user_param import class_name, learning_path
 
-
-
-
 def handle_token(tokens, classname):
+  """This function counts occurence of vocabulary words appearing in documents of
+  'classname' class.
+
+  Parameters
+  ----------
+  tokens : list
+    A document of 'classname' class tokenized into a list
+  classname : str
+
+  Returns
+  -------
+  None
+  """
   for t in tokens:
     if t in voc:
-      voc_count_one(t, classname)
+      # voc_count_one(t, classname)
+      voc[t][classname] += 1
 
+def learning_dir(directory, classname):
+  """Read all files of a directory for learning. We condider the directory is a
+  learning set for class 'classname'. Files are tokenized and we apply
+  'handle_token' function.
 
-def learning_dir(directory, classname): # tous les fichiers d'un repertoire
+  Parameters
+  ----------
+  directory : str
+    Relative path of directory containing files
+  classname : str
+
+  Returns
+  -------
+  None
+    The learning set of class 'classname' is learned
+  """
   file_list = os.listdir(directory)
-  tokens_list = []
+  # tokens_list = []
   add_count(classname, len(file_list))
-  # print file_list
   for f in file_list:
-    # print f
-    # print directory + f
     tokens = tokenize_file(directory + f)
     handle_token(tokens, classname)
-    tokens_list += tokens
-    # print tokens
-    # print tokens_list
+    # tokens_list += tokens
 
 
-def learning_file(filename, classname): # toutes les lignes d'un fichier
+def learning_file(filename, classname):
+  """Read all lines of a file for learning. We condider the file is a learning
+  set for class 'classname'. Lines are tokenized and we apply  'handle_token'
+  function.
+
+  Parameters
+  ----------
+  filename : str
+    Relative path of file
+  classname : str
+
+  Returns
+  -------
+  None
+    The learning set of class 'classname' is learned
+  """
   tokens = tokenize_file(filename)
   handle_token(tokens, classname)
 
   filereader = open(filename, 'r')
   line = filereader.readline()
-# 'modifier cette partie en utilisant tokenize_string'
+# modifier cette partie en utilisant tokenize_string
   i = 1
   while line != '':
     line = filereader.readline()
@@ -47,6 +85,17 @@ def learning_file(filename, classname): # toutes les lignes d'un fichier
 
 
 def learning():
+  """Main function for learning. Detect if learning sets are directories filled
+  with files or files filled with lines.
+
+  Parameters
+  ----------
+
+  Returns
+  -------
+  None
+    All learning sets have been handled
+  """
   print get_voc()
   n = len(learning_path)
   for i in range(n):
@@ -55,13 +104,6 @@ def learning():
     else:
       learning_file(learning_path[i], class_name[i])
   print get_voc()
-
-
-
-# learning_dir('/home/antoine/documents/tmp/')
-# learning_file('/home/antoine/documents/tmp/tmp1.txt', 'positive', False)
-
-# learning(False)
 
 
 

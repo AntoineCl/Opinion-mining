@@ -1,9 +1,21 @@
 import os
 from user_param import class_name, test_path
 
-
-
 def stats(result):
+  """Return the ratio of documents properly classidied
+
+  Parameters
+  ----------
+  result : dict
+    The dictionary returned by 'classification' method: the keys are paths of
+    test set and values are their estimated classification.
+
+  Returns
+  -------
+  None
+    print the ratio
+
+  """
   data = 0
   good_classified = 0.
   n = len(class_name)

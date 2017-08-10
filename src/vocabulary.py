@@ -1,50 +1,110 @@
+"""In this file we define the vocabulary used for bayesian classification.
+The vocabulary has the following structure:
+{word1 : {classe1 : nbr_occ_in_classe1,
+          classe2 : ...,
+          ...},
+ word2 : ...,
+ ...}
+"""
+
 from user_param import class_name, bool_pos, threshold, stop
 from nltk.corpus import wordnet as wn
 from nltk.corpus import sentiwordnet as swn
 
-# voc structure: {word : {classe1 : nbr_occ_in_classe1,
-#                                classe2 : ...}}
-
 wn_list = wn.all_synsets()
+"""generator: allows iteration on objects of wordnet
+"""
 swn_list = swn.all_senti_synsets()
-
+"""generator: allows iteration on objects of sentiwordnet
+"""
 
 voc = {}
+"""dict: vocabulary used for classification
+"""
+
 voc_size = 0
-intern_dico = {}
 
-def init_intern_dico():
+intern_dict = {}
+"""dict: necessary for construction of voc
+"""
+
+def init_intern_dict():
+  """Initialize inter_dict.
+  Keys are name of class and values are 0
+  """
   for name in class_name:
-    intern_dico[name] = 0
+    intern_dict[name] = 0
 
+def add_key(dic, key):
+  """Add a key in a dictionary.
 
-def add_key(dico, key):
+  Parameters
+  ----------
+  dic : dict
+  key : str
+
+  Returns
+  -------
+  None
+    The value of the added key is a copy of inter_dict
+  """
   global voc_size
-  if key not in dico:
-    dico[key] = intern_dico.copy() # on initialise les occurence a zero
+  if key not in dic:
+    dic[key] = intern_dict.copy()
     voc_size += 1
 
-def voc_count_one(word, classname):
-  voc[word][classname] += 1 # on met a jour les occurence de vocabulaire
+# def voc_count_one(word, classname):
+  # voc[word][classname] += 1
 
 def condition_opscore(word, threshold):
+  """Condition on value of opinion score of a word in Sentiword.
+
+  Parameters
+  ----------
+  word : str
+  threshold : float
+    the threshold of opinion score
+
+  Returns
+  -------
+  bool
+  """
   if threshold == 0:
     return True
   else:
     return word.pos_score() >= threshold or word.neg_score() >= threshold
 
 def condition(word):
+  """Choice of condition method
+
+  Parameters
+  ----------
+  word : str
+
+  Returns
+  -------
+  bool
+  """
   return condition_opscore(word, threshold)
 
-# return
-def voc_basis_sentiword(): # sans pos tag mais avec la condition sur le score d'opinion
+def voc_basis_sentiword():
+  """Define the vocabulary without using part-of-speech tagging
+
+  Parameters
+  ----------
+
+  Returns
+  -------
+  None
+    The vocabulary contain words respecting the condition
+  """
   i = 0
   for w in wn_list:
     tmp = str(w.name()).split('.')
     if len(tmp) >= 4:
       continue
     nam = tmp[0] # nam = le nom comme il est dans le texte
-    if nam+'.x' in voc:
+    if nam + '.x' in voc:
       continue
     id_swn = list(swn.senti_synsets(nam))[0] # id_swn = la ref sentiword
     if condition(id_swn):
@@ -55,6 +115,16 @@ def voc_basis_sentiword(): # sans pos tag mais avec la condition sur le score d'
       break
 
 def voc_pos_sentiword(): # avec pos tag et la condition sur le score d'opinion
+  """Define the vocabulary using part-of-speech tagging
+
+  Parameters
+  ----------
+
+  Returns
+  -------
+  None
+    The vocabulary contain words respecting the condition
+  """
   i = 0
   for w in wn_list:
     tmp = str(w.name()).split('.')
@@ -68,25 +138,25 @@ def voc_pos_sentiword(): # avec pos tag et la condition sur le score d'opinion
     if list_n != []:
       id_swn_n = list_n[0]
       if condition(id_swn_n):
-        add_key(voc, nam+'.n')
+        add_key(voc, nam + '.n')
 
     list_a = list(swn.senti_synsets(nam, 'a'))
     if list_a != []:
       id_swn_a = list_a[0]
       if condition(id_swn_a):
-        add_key(voc, nam+'.a')
+        add_key(voc, nam + '.a')
 
     list_v = list(swn.senti_synsets(nam, 'v'))
     if list_v != []:
       id_swn_v = list_v[0]
       if condition(id_swn_v):
-        add_key(voc, nam+'.v')
+        add_key(voc, nam + '.v')
 
     list_r = list(swn.senti_synsets(nam, 'r'))
     if list_r != []:
       id_swn_r = list_r[0]
       if condition(id_swn_r):
-        add_key(voc, nam+'.r')
+        add_key(voc, nam + '.r')
 
     i += 1
     # print i
@@ -94,7 +164,18 @@ def voc_pos_sentiword(): # avec pos tag et la condition sur le score d'opinion
       break
 
 def define_voc():
-  init_intern_dico()
+  """Main function for define vocabulary by selecting the appropriated method
+  (with or without POS tagging)
+
+  Parameters
+  ----------
+
+  Returns
+  -------
+  None
+    The vocabulary is constructed
+  """
+  init_intern_dict()
   if bool_pos:
     voc_pos_sentiword()
   else:
@@ -109,14 +190,5 @@ def get_voc_size():
 
 def get_voc_count(word, classname):
   return voc[word][classname]
-
-# voc_basis_sentiword()
-# voc_pos_sentiword()
-
-
-
-
-
-
 
 
