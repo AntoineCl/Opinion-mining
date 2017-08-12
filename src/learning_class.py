@@ -1,5 +1,6 @@
-"""This file contains main function for learning phase.
-"""
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+"""This file contains main function for learning phase."""
 
 import os
 import nltk

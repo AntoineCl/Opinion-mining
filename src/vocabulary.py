@@ -12,21 +12,18 @@ from nltk.corpus import wordnet as wn
 from nltk.corpus import sentiwordnet as swn
 
 wn_list = wn.all_synsets()
-"""generator: allows iteration on objects of wordnet
-"""
+"""generator: allows iteration on objects of wordnet"""
+
 swn_list = swn.all_senti_synsets()
-"""generator: allows iteration on objects of sentiwordnet
-"""
+"""generator: allows iteration on objects of sentiwordnet"""
 
 voc = {}
-"""dict: vocabulary used for classification
-"""
+"""dict: vocabulary used for classification"""
 
 voc_size = 0
 
 intern_dict = {}
-"""dict: necessary for construction of voc
-"""
+"""dict: necessary for construction of voc"""
 
 def init_intern_dict():
   """Initialize inter_dict.

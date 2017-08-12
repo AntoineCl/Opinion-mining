@@ -1,5 +1,6 @@
-"""This file contains function for reading of learning set and formatting.
-"""
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
+"""This file contains function for reading of learning set and formatting."""
 
 import os
 import nltk
@@ -19,8 +20,7 @@ pos_conversion = {
                   # '.': ,
                   # 'X': ,
                   }
-"""dict: is used to convert POS tag of NLTK to POS tag of Sentiword
-"""
+"""dict: is used to convert POS tag of NLTK to POS tag of Sentiword"""
 
 def formatting(tokens):
   """Need that words are in same format with or without POS tag. The format is
@@ -66,6 +66,7 @@ def tokenize_string(string):
   list
     Each word of 'string' is formatting
   """
+  print 'tokenize : ' + string
   tokens = nltk.word_tokenize(string)
   # print tokens
   newtokens = formatting(tokens)
@@ -85,6 +86,11 @@ def tokenize_file(filename):
     Each word of 'filename' is formatting
   """
   print 'tokenize : ' + filename
+
+  import sys
+  reload(sys)
+  sys.setdefaultencoding('utf8')
+
   filereader = open(filename, 'r')
   string = filereader.read()
   filereader.close()

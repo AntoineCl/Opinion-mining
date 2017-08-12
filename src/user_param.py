@@ -1,13 +1,11 @@
-"""This file contains all user parameters.
-"""
+"""This file contains all user parameters."""
 
 class_name = ['positive', 'negative']
 """list: list of names class
 """
 
 bool_pos = False
-"""bool: boolean variable to determine if part-of-speech (POS) tagger is used
-"""
+"""bool: boolean variable to determine if part-of-speech (POS) tagger is used"""
 
 threshold = 0.
 """float: minimum value of opinion score for selection words for vocabulary
@@ -23,16 +21,20 @@ pres_bool = False
 """
 
 learning_path = [
-                  '../data/learning_set/pos/',
-                  '../data/learning_set/neg/'
+                  # '../data/learning_set/pos/',
+                  # '../data/learning_set/neg/'
+                  '../data/learning_set/pos.txt',
+                  '../data/learning_set/neg.txt'
                 ]
 """list: list of learning sets paths.
 WARNING: path in same order than class_name
 """
 
 test_path = [
-              '../data/test_set/pos/',
-              '../data/test_set/neg/'
+              # '../data/test_set/pos/',
+              # '../data/test_set/neg/'
+              '../data/test_set/pos.txt',
+              '../data/test_set/neg.txt'
             ]
 """list: list of test sets paths.
 WARNING: path in same order than class_name

@@ -1,5 +1,4 @@
-"""This file contains all computation methods for naive bayesian classification
-"""
+"""This file contains all computation methods for naive bayesian classification"""
 
 import numpy as np
 import os
@@ -9,12 +8,10 @@ from vocabulary import get_voc, get_voc_size, get_voc_count
 from filereader import tokenize_string, tokenize_file
 
 voc = {}
-"""dict: vocabulary used for classification
-"""
+"""dict: vocabulary used for classification"""
 
 voc_size = 0
-"""int: size of vocabulary
-"""
+"""int: size of vocabulary"""
 
 def proba_naive_class(cl):
   """Return the uniform probability of a class.
@@ -162,6 +159,8 @@ def doc_classification(doc):
   for i in range(nbr_cl):
     class_estim += [estim_bayes(doc, class_name[i])]
   i = np.argmax(class_estim)
+  print ''
+  print ''
   return class_name[i]
 
 def classification():
@@ -195,7 +194,7 @@ def classification():
         j = 1
         while line != '':
           tokens = tokenize_string(line)
-          classified[test_path[i] + ' line ' + str(j)] = doc_classification(tokens)
+          classified[test_path[i] + '_line_' + str(j)] = doc_classification(tokens)
           line = filereader.readline()
           j += 1
         filereader.close()

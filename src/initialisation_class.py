@@ -1,8 +1,7 @@
 from user_param import class_name
 
 nbr_cl = len(class_name)
-"""int: class number
-"""
+"""int: class number"""
 
 class_dict = {}
 """dict: dictionary where each key is a name class and each value is an other
@@ -11,12 +10,10 @@ documents in learning set for this class.
 """
 
 sum_learning = 0
-"""int: total number of documents in learning class
-"""
+"""int: total number of documents in learning class"""
 
 def initialize_class():
-  """Initialize 'class_dict' with name of classes
-  """
+  """Initialize 'class_dict' with name of classes"""
   for cl in class_name:
     class_dict[cl] = {'nbr_occ': 0}
 
