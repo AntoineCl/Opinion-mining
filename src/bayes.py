@@ -1,3 +1,4 @@
+"""This file contains all computation methods for naive bayesian classification
 """
 
 import numpy as np
