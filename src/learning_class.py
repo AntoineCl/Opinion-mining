@@ -9,6 +9,8 @@ from filereader import tokenize_file
 from initialisation_class import add_count
 from user_param import class_name, learning_path
 
+
+
 def handle_token(tokens, classname):
   """This function counts occurence of vocabulary words appearing in documents of
   'classname' class.
@@ -23,6 +25,7 @@ def handle_token(tokens, classname):
   -------
   None
   """
+  print tokens
   for t in tokens:
     if t in voc:
       # voc_count_one(t, classname)
@@ -97,14 +100,14 @@ def learning():
   None
     All learning sets have been handled
   """
-  print get_voc()
+  # print get_voc()
   n = len(learning_path)
   for i in range(n):
     if os.path.isdir(learning_path[i]):
       learning_dir(learning_path[i], class_name[i])
     else:
       learning_file(learning_path[i], class_name[i])
-  print get_voc()
+  # print get_voc()
 
 
 

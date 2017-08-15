@@ -41,17 +41,26 @@ def formatting(tokens):
   list
     Each word of 'tokens' list is formatting
   """
-  # print tokens
+  print tokens
+  tagged = nltk.pos_tag(tokens, 'universal')
+  newtagged = []
+
+  for t in tagged:
+    if t[1] in pos_conversion:
+      newtagged.append(t)
+
   if not bool_pos:
-    newtokens = list(map(lambda t : t + '.x', tokens))
+    # newtokens = list(map(lambda t : t + '.x', tokens))
+    newtokens = list(map(lambda t : t[0] + '.x', newtagged))
   else:
-    newtokens = []
-    tagged = nltk.pos_tag(tokens, 'universal')
-    # newtokens = list(map(lambda (a, b) : (a, pos_conversion[b]), tagged)) # existence of b?
-    n = len(tagged)
-    for i in range(n):
-      if tagged[i][1] in pos_conversion:
-        newtokens += [tagged[i][0] + '.' + pos_conversion[tagged[i][1]]]
+    # newtokens = []
+    newtokens = list(map(lambda (a, b) : (a + '.' + pos_conversion[b]), newtagged)) # existence of b? -> ok because the sort is made firstly
+    # n = len(newtagged)
+    # for i in range(n):
+      # if newtagged[i][1] in pos_conversion:
+        # newtokens += [newtagged[i][0] + '.' + pos_conversion[newtagged[i][1]]]
+  print newtokens
+
   return newtokens
 
 def tokenize_string(string):
@@ -66,7 +75,7 @@ def tokenize_string(string):
   list
     Each word of 'string' is formatting
   """
-  print 'tokenize : ' + string
+  # print 'tokenize : ' + string
   tokens = nltk.word_tokenize(string)
   # print tokens
   newtokens = formatting(tokens)
@@ -86,11 +95,6 @@ def tokenize_file(filename):
     Each word of 'filename' is formatting
   """
   print 'tokenize : ' + filename
-
-  import sys
-  reload(sys)
-  sys.setdefaultencoding('utf8')
-
   filereader = open(filename, 'r')
   string = filereader.read()
   filereader.close()

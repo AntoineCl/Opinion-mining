@@ -14,8 +14,10 @@ def execute():
   initialize_class()
 
   define_voc()
+  print 'voc define'
 
   learning()
+  print 'end learning'
 
   result = classification()
   # print result

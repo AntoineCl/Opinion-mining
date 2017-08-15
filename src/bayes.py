@@ -114,6 +114,10 @@ def proba_doc(doc, cl):
         voc_tmp[w] = 1
     else:
       continue
+
+  # for w in voc:
+
+
   for w in voc_tmp:
     exp = method(voc_tmp[w])
     prod *= smoothing(w, cl) ** exp

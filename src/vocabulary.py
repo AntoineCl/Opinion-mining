@@ -7,7 +7,8 @@ The vocabulary has the following structure:
  ...}
 """
 
-from user_param import class_name, bool_pos, threshold, stop
+from user_param import class_name, bool_pos, threshold, voc_size_a_priori
+import nltk
 from nltk.corpus import wordnet as wn
 from nltk.corpus import sentiwordnet as swn
 
@@ -84,7 +85,7 @@ def condition(word):
   """
   return condition_opscore(word, threshold)
 
-def voc_basis_sentiword():
+def voc_basis_sentiword(words):
   """Define the vocabulary without using part-of-speech tagging
 
   Parameters
@@ -96,22 +97,27 @@ def voc_basis_sentiword():
     The vocabulary contain words respecting the condition
   """
   i = 0
-  for w in wn_list:
-    tmp = str(w.name()).split('.')
-    if len(tmp) >= 4:
-      continue
-    nam = tmp[0] # nam = le nom comme il est dans le texte
+  # for w in wn_list:
+    # tmp = str(w.name()).split('.')
+    # if len(tmp) >= 4:
+      # continue
+    # nam = tmp[0] # nam = le nom comme il est dans le texte
+  for nam in words:
     if nam + '.x' in voc:
       continue
-    id_swn = list(swn.senti_synsets(nam))[0] # id_swn = la ref sentiword
+    list_senti_synsets = list(swn.senti_synsets(nam))
+    if list_senti_synsets == []:
+      continue
+    id_swn = list_senti_synsets[0] # id_swn = la ref sentiword
     if condition(id_swn):
       add_key(voc, nam + '.x')
-    i += 1
-    # print i
-    if i == stop:
-      break
+      i += 1
+      # print i
+      if i == voc_size_a_priori:
+        print 'break'
+        break
 
-def voc_pos_sentiword(): # avec pos tag et la condition sur le score d'opinion
+def voc_pos_sentiword(words):
   """Define the vocabulary using part-of-speech tagging
 
   Parameters
@@ -123,11 +129,12 @@ def voc_pos_sentiword(): # avec pos tag et la condition sur le score d'opinion
     The vocabulary contain words respecting the condition
   """
   i = 0
-  for w in wn_list:
-    tmp = str(w.name()).split('.')
-    if len(tmp) >= 4:
-      continue # on ignore les cas particulier ou le nom contient un '.' par facilite
-    nam = tmp[0] # nam = le nom comme il est dans le texte
+  # for w in wn_list:
+    # tmp = str(w.name()).split('.')
+    # if len(tmp) >= 4:
+      # continue # on ignore les cas particulier ou le nom contient un '.' par facilite
+    # nam = tmp[0] # nam = le nom comme il est dans le texte
+  for nam in words:
     if nam+'.n' in voc or nam+'.a' in voc or nam+'.v' in voc or nam+'.r' in voc:
       continue
 
@@ -136,29 +143,65 @@ def voc_pos_sentiword(): # avec pos tag et la condition sur le score d'opinion
       id_swn_n = list_n[0]
       if condition(id_swn_n):
         add_key(voc, nam + '.n')
+        i += 1
+        # print i
+        if i == voc_size_a_priori:
+          print 'break with'
+          break
 
     list_a = list(swn.senti_synsets(nam, 'a'))
     if list_a != []:
       id_swn_a = list_a[0]
       if condition(id_swn_a):
         add_key(voc, nam + '.a')
+        i += 1
+        # print i
+        if i == voc_size_a_priori:
+          print 'break'
+          break
 
     list_v = list(swn.senti_synsets(nam, 'v'))
     if list_v != []:
       id_swn_v = list_v[0]
       if condition(id_swn_v):
         add_key(voc, nam + '.v')
+        i += 1
+        # print i
+        if i == voc_size_a_priori:
+          print 'break'
+          break
 
     list_r = list(swn.senti_synsets(nam, 'r'))
     if list_r != []:
       id_swn_r = list_r[0]
       if condition(id_swn_r):
         add_key(voc, nam + '.r')
+        i += 1
+        # print i
+        if i == voc_size_a_priori:
+          print 'break '
+          break
 
-    i += 1
-    # print i
-    if i == stop:
-      break
+def word_nltk_movie_corpus():
+  from nltk.corpus import movie_reviews
+  words = []
+  for w in movie_reviews.words():
+    # print w
+    words.append(w)
+  words_freq = nltk.FreqDist(words)
+  # return list(words_freq.keys())[:voc_size_a_priori]
+  return list(words_freq.keys())
+
+def word_wn():
+  words = []
+  for w in wn_list:
+    tmp = str(w.name()).split('.')
+    if len(tmp) >= 4:
+      continue
+    nam = tmp[0] # nam = le nom comme il est dans le texte
+    words.append(nam)
+  return words
+
 
 def define_voc():
   """Main function for define vocabulary by selecting the appropriated method
@@ -174,9 +217,9 @@ def define_voc():
   """
   init_intern_dict()
   if bool_pos:
-    voc_pos_sentiword()
+    voc_pos_sentiword(word_wn())
   else:
-    voc_basis_sentiword()
+    voc_basis_sentiword(word_nltk_movie_corpus())
   print voc_size
 
 def get_voc():
