@@ -13,9 +13,13 @@ sum_learning = 0
 """int: total number of documents in learning class"""
 
 def initialize_class():
-  """Initialize 'class_dict' with name of classes"""
+  """Initialize 'class_dict' with name of classes and a under-dictionary.
+  nbr_occ is the number of documents in class 'cl' learning set,
+  voc_occ is the sum of occurence of vocabulary words in class 'cl' learning set
+  """
   for cl in class_name:
-    class_dict[cl] = {'nbr_occ': 0}
+    class_dict[cl] = {'nbr_occ': 0,
+                      'voc_occ': 0}
 
 def add_count(cl, n):
   """Increases the occurence number of 'cl' class by 'n' and update also

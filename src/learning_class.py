@@ -6,14 +6,17 @@ import os
 import nltk
 from vocabulary import voc, get_voc
 from filereader import tokenize_file
-from initialisation_class import add_count
+from initialisation_class import class_dict, add_count
 from user_param import class_name, learning_path
 
 
+# corpus_words = {}
+# """dict: words not present in vocabulary but appearing in learning corpus"""
+
 
 def handle_token(tokens, classname):
-  """This function counts occurence of vocabulary words appearing in documents of
-  'classname' class.
+  """This function counts occurence of vocabulary words (formatted) appearing in
+  documents of 'classname' class.
 
   Parameters
   ----------
@@ -30,6 +33,17 @@ def handle_token(tokens, classname):
     if t in voc:
       # voc_count_one(t, classname)
       voc[t][classname] += 1
+      print class_dict
+      class_dict[classname]['voc_occ'] += 1
+    # else:
+      # if t in corpus_words:
+        # if classname in corpus_words[t]:
+          # corpus_words[t][classname] += 1
+        # else:
+          # corpus_words[t][classname] = 1
+      # else:
+        # corpus_words[t] = {classname : 1}
+
 
 def learning_dir(directory, classname):
   """Read all files of a directory for learning. We condider the directory is a

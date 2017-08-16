@@ -55,10 +55,11 @@ def add_one(word, cl):
   float
   """
   count = get_voc_count(word, cl)
-  summ = 0
-  for w in voc:
-    summ += voc[w][cl]
-  return (count + 1.) / (voc_size + summ)
+  # summ = 0
+  # for w in voc:
+    # summ += voc[w][cl]
+  # return (count + 1.) / (voc_size + summ)
+  return (count + 1.) / (voc_size + class_dict[cl]['voc_occ'])
 
 def smoothing(word, cl):
   """Apply the selected smoothing.
@@ -114,10 +115,6 @@ def proba_doc(doc, cl):
         voc_tmp[w] = 1
     else:
       continue
-
-  # for w in voc:
-
-
   for w in voc_tmp:
     exp = method(voc_tmp[w])
     prod *= smoothing(w, cl) ** exp

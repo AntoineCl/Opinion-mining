@@ -3,7 +3,7 @@
 class_name = ['positive', 'negative']
 """list: list of names class"""
 
-bool_pos = True
+bool_pos = False
 """bool: boolean variable to determine if part-of-speech (POS) tagger is used"""
 
 threshold = 0.2
