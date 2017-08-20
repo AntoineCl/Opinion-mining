@@ -50,11 +50,11 @@ def formatting(tokens):
       newtagged.append(t)
 
   if not bool_pos:
-    # newtokens = list(map(lambda t : t + '.x', tokens))
-    newtokens = list(map(lambda t : t[0] + '.x', newtagged))
+    # newtokens = map(lambda t : t + '.x', tokens)
+    newtokens = map(lambda t : t[0] + '.x', newtagged)
   else:
     # newtokens = []
-    newtokens = list(map(lambda (a, b) : (a + '.' + pos_conversion[b]), newtagged)) # existence of b? -> ok because the sort is made firstly
+    newtokens = map(lambda (a, b) : (a + '.' + pos_conversion[b]), newtagged) # existence of b? -> ok because the sort is made firstly
     # n = len(newtagged)
     # for i in range(n):
       # if newtagged[i][1] in pos_conversion:
