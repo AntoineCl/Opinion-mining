@@ -1,24 +1,14 @@
-#!/usr/bin/env python
-#-*- coding: utf-8 -*-
 """This file contains function for reading of learning set and formatting."""
 
 import os
 import nltk
-from user_param import bool_pos
+from user_param import bool_pos, learning_path
 
 pos_conversion = {
                   'ADJ': 'a',
-                  # 'ADP': ,
                   'ADV': 'r',
-                  # 'CONJ': ,
-                  # 'DET': ,
                   'NOUN': 'n',
-                  # 'NUM': ,
-                  # 'PRT': ,
-                  # 'PRON': ,
                   'VERB': 'v',
-                  # '.': ,
-                  # 'X': ,
                   }
 """dict: is used to convert POS tag of NLTK to POS tag of Sentiword"""
 
@@ -41,26 +31,15 @@ def formatting(tokens):
   list
     Each word of 'tokens' list is formatting
   """
-  print tokens
   tagged = nltk.pos_tag(tokens, 'universal')
   newtagged = []
-
   for t in tagged:
     if t[1] in pos_conversion:
       newtagged.append(t)
-
   if not bool_pos:
-    # newtokens = map(lambda t : t + '.x', tokens)
     newtokens = map(lambda t : t[0] + '.x', newtagged)
   else:
-    # newtokens = []
     newtokens = map(lambda (a, b) : (a + '.' + pos_conversion[b]), newtagged) # existence of b? -> ok because the sort is made firstly
-    # n = len(newtagged)
-    # for i in range(n):
-      # if newtagged[i][1] in pos_conversion:
-        # newtokens += [newtagged[i][0] + '.' + pos_conversion[newtagged[i][1]]]
-  print newtokens
-
   return newtokens
 
 def tokenize_string(string):
@@ -75,12 +54,7 @@ def tokenize_string(string):
   list
     Each word of 'string' is formatting
   """
-  # print 'tokenize : ' + string
-  tokens = nltk.word_tokenize(string)
-  # print tokens
-  newtokens = formatting(tokens)
-  # print newtokens
-  return newtokens
+  return formatting(nltk.word_tokenize(string))
 
 def tokenize_file(filename):
   """Tokenize and formats the content of a file.
@@ -94,12 +68,30 @@ def tokenize_file(filename):
   list
     Each word of 'filename' is formatting
   """
-  print 'tokenize : ' + filename
   filereader = open(filename, 'r')
   string = filereader.read()
   filereader.close()
   tokens = tokenize_string(string)
   return tokens
 
+
+# def tokenize_dir(dirname):
+  # file_list = os.listdir(dirname)
+  # tokens = []
+  # for f in file_list:
+    # tokens += tokenize_file(directory + f)
+  # return tokens
+
+
+
+# def tokenize_set():
+  # n = len(learning_path)
+  # tokens = []
+  # for i in range(n):
+    # if os.path.isdir(path):
+      # tokens += tokenize_dir(path, class_name[i])
+    # else:
+      # tokens += tokenize_file(path, class_name[i])
+  # return tokens
 
 

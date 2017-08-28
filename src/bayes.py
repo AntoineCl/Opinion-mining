@@ -55,10 +55,6 @@ def add_one(word, cl):
   float
   """
   count = get_voc_count(word, cl)
-  # summ = 0
-  # for w in voc:
-    # summ += voc[w][cl]
-  # return (count + 1.) / (voc_size + summ)
   return (count + 1.) / (voc_size + class_dict[cl]['voc_occ'])
 
 def smoothing(word, cl):
@@ -160,8 +156,6 @@ def doc_classification(doc):
   for i in range(nbr_cl):
     class_estim += [estim_bayes(doc, class_name[i])]
   i = np.argmax(class_estim)
-  print ''
-  print ''
   return class_name[i]
 
 def classification():
@@ -199,7 +193,6 @@ def classification():
           line = filereader.readline()
           j += 1
         filereader.close()
-    print 'classified : ' + test_path[i]
   return classified
 
 

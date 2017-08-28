@@ -1,8 +1,3 @@
-"""This file contains all user parameters."""
-
-class_name = ['positive', 'negative']
-"""list: list of names class"""
-
 bool_pos = False
 """bool: boolean variable to determine if part-of-speech (POS) tagger is used"""
 
@@ -11,7 +6,7 @@ threshold = 0.2
 construction
 """
 
-voc_size_a_priori = 3000
+max_voc_size = 3000
 """int: desired vocabulary size"""
 
 pres_bool = False
@@ -38,5 +33,4 @@ test_path = [
 """list: list of test sets paths.
 WARNING: path in same order than class_name
 """
-
 
