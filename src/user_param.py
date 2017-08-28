@@ -1,5 +1,15 @@
-bool_pos = False
+"""This file contains all user parameters."""
+
+class_name = ['positive', 'negative']
+"""list: list of names class"""
+
+pos_bool = False
 """bool: boolean variable to determine if part-of-speech (POS) tagger is used"""
+
+corpus_bool = False
+"""bool: boolean to determine if vocabulary is based on frequent opinion words
+in learning set
+"""
 
 threshold = 0.2
 """float: minimum value of opinion score for selection words for vocabulary

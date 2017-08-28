@@ -9,15 +9,28 @@ from user_param import class_name, threshold, learning_path
 
 
 first_learnset_reading = True
+"""bool: boolean True iff learning set has'nt been read"""
+
 tokenized_learning_class = {}
+"""dict: contains learning set tokenized if it has already been read"""
 
 
 def init_tokenized_learning_class():
+  """Initialize 'tokenized_learning_class' with name class as key and empty
+  list as value.
+
+  Parameters
+  ----------
+
+  Returns
+  -------
+  None
+  """
   for cl in class_name:
     tokenized_learning_class[cl] = []
 
 def handle_token(tokens, classname):
-  """This function counts occurence of vocabulary words (formatted) appearing in
+  """This function counts occurrence of vocabulary words (formatted) appearing in
   documents of 'classname' class.
 
   Parameters
@@ -32,8 +45,8 @@ def handle_token(tokens, classname):
   """
   i = 0
   for t in tokens:
-    print t
-    print (t in voc)
+    # print t
+    # print (t in voc)
     if t in voc:
       i += 1
       voc[t][classname] += 1
@@ -44,13 +57,21 @@ def handle_token(tokens, classname):
   # print float(i)/len(tokens)
 
 def handle_tokenized_learning():
+  """Apply 'handle_token' function to learning set tokenized.
+
+  Parameters
+  ----------
+
+  Returns
+  -------
+  None
+  """
   for k, v in tokenized_learning_class.items():
     handle_token(v, k)
 
 def learning_dir(directory, classname):
   """Read all files of a directory for learning. We condider the directory is a
-  learning set for class 'classname'. Files are tokenized and we apply
-  'handle_token' function.
+  learning set for class 'classname'. Files are tokenized.
 
   Parameters
   ----------
@@ -71,11 +92,9 @@ def learning_dir(directory, classname):
     tokens_list += tokens
   tokenized_learning_class[classname] += tokens_list
 
-
 def learning_file(filename, classname):
   """Read all lines of a file for learning. We condider the file is a learning
-  set for class 'classname'. Lines are tokenized and we apply 'handle_token'
-  function.
+  set for class 'classname'. Lines are tokenized.
 
   Parameters
   ----------
@@ -102,14 +121,6 @@ def learning_file(filename, classname):
   tokenized_learning_class[classname] = tokens
 
 def main_learning():
-  n = len(learning_path)
-  for i in range(n):
-    if os.path.isdir(learning_path[i]):
-      learning_dir(learning_path[i], class_name[i])
-    else:
-      learning_file(learning_path[i], class_name[i])
-
-def learning():
   """Main function for learning. Detect if learning sets are directories filled
   with files or files filled with lines.
 
@@ -119,7 +130,25 @@ def learning():
   Returns
   -------
   None
-    All learning sets have been handled
+  """
+
+  n = len(learning_path)
+  for i in range(n):
+    if os.path.isdir(learning_path[i]):
+      learning_dir(learning_path[i], class_name[i])
+    else:
+      learning_file(learning_path[i], class_name[i])
+
+# To documented
+def learning():
+  """.
+
+  Parameters
+  ----------
+
+  Returns
+  -------
+  None
   """
   global first_learnset_reading
   if threshold == -1.:

@@ -5,8 +5,9 @@ nbr_cl = len(class_name)
 
 class_dict = {}
 """dict: dictionary where each key is a name class and each value is an other
-dictionary where a key is 'nbr_occ' and is associated value is the number of
-documents in learning set for this class.
+dictionary where keys are 'nbr_occ' and 'voc_occ' and their associated value are
+respectively the number of documents in learning set for this class and the
+number (with occurrence) of vocabulary words appearing in this class.
 """
 
 sum_learning = 0
@@ -15,14 +16,15 @@ sum_learning = 0
 def initialize_class():
   """Initialize 'class_dict' with name of classes and a under-dictionary.
   nbr_occ is the number of documents in class 'cl' learning set,
-  voc_occ is the sum of occurence of vocabulary words in class 'cl' learning set
+  voc_occ is the sum of occurrence of vocabulary words in class 'cl' learning
+  set.
   """
   for cl in class_name:
     class_dict[cl] = {'nbr_occ': 0,
                       'voc_occ': 0}
 
 def add_count(cl, n):
-  """Increases the occurence number of 'cl' class by 'n' and update also
+  """Increases the occurrence number of 'cl' class by 'n' and update also
   sum_learning.
 
   Parameters
@@ -37,5 +39,6 @@ def add_count(cl, n):
   sum_learning += n
 
 def get_sum_learning():
+  """Return sum_learning"""
   return sum_learning
 

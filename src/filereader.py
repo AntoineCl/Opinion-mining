@@ -2,7 +2,7 @@
 
 import os
 import nltk
-from user_param import bool_pos, learning_path
+from user_param import pos_bool, learning_path
 
 pos_conversion = {
                   'ADJ': 'a',
@@ -36,10 +36,10 @@ def formatting(tokens):
   for t in tagged:
     if t[1] in pos_conversion:
       newtagged.append(t)
-  if not bool_pos:
+  if not pos_bool:
     newtokens = map(lambda t : t[0] + '.x', newtagged)
   else:
-    newtokens = map(lambda (a, b) : (a + '.' + pos_conversion[b]), newtagged) # existence of b? -> ok because the sort is made firstly
+    newtokens = map(lambda (a, b) : (a + '.' + pos_conversion[b]), newtagged)
   return newtokens
 
 def tokenize_string(string):

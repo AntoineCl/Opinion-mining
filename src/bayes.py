@@ -38,7 +38,7 @@ def proba_weighted_class(cl):
   Returns
   -------
   float
-    The ratio of number of document in 'cl' class on total number of document
+    The ratio of number of documents in 'cl' class on total number of documents
   """
   return float(class_dict[cl]['nbr_occ'])/get_sum_learning()
 
@@ -54,8 +54,7 @@ def add_one(word, cl):
   -------
   float
   """
-  count = get_voc_count(word, cl)
-  return (count + 1.) / (voc_size + class_dict[cl]['voc_occ'])
+  return (get_voc_count(word, cl) + 1.) / (voc_size + class_dict[cl]['voc_occ'])
 
 def smoothing(word, cl):
   """Apply the selected smoothing.
@@ -78,14 +77,10 @@ def presence(n):
   """This function is intended to project an integer in {0, 1}.
   See theory for utility.
   """
-  if n == 0:
-    return 0
-  else:
-    return 1
+  return 0 if n == 0 else 1
 
 def proba_doc(doc, cl):
-  """Return the probability a document knowing a class under assumptions of the
-  theory.
+  """Return the probability of a document knowing a class.
   See theory for computation method.
 
   Parameters
@@ -117,8 +112,7 @@ def proba_doc(doc, cl):
   return prod
 
 def estim_bayes(doc, cl):
-  """Return the probability a document belong to a class under assumptions of
-  the theory.
+  """Return the probability a document belong to a class.
   See theory for computation method.
 
   Parameters

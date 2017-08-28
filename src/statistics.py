@@ -14,7 +14,6 @@ def stats(result):
   Returns
   -------
   float
-
   """
   data = 0
   good_classified = 0.
