@@ -1,20 +1,21 @@
 from user_param import class_name
 
 nbr_cl = len(class_name)
-"""int: class number"""
+"""int: Class number"""
 
 class_dict = {}
-"""dict: dictionary where each key is a name class and each value is an other
+"""dict: Dictionary where each key is a name class and each value is an other
 dictionary where keys are 'nbr_occ' and 'voc_occ' and their associated value are
 respectively the number of documents in learning set for this class and the
 number (with occurrence) of vocabulary words appearing in this class.
 """
 
 sum_learning = 0
-"""int: total number of documents in learning class"""
+"""int: Total number of documents in learning class"""
 
 def initialize_class():
   """Initialize 'class_dict' with name of classes and a under-dictionary.
+
   nbr_occ is the number of documents in class 'cl' learning set,
   voc_occ is the sum of occurrence of vocabulary words in class 'cl' learning
   set.

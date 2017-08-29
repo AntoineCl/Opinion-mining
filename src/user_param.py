@@ -12,12 +12,12 @@ in learning set
 """
 
 threshold = 0.2
-"""float: minimum value of opinion score for selection words for vocabulary
+"""float: minimum value of opinion score of selected words for vocabulary
 construction
 """
 
 max_voc_size = 3000
-"""int: desired vocabulary size"""
+"""int: maximum vocabulary size"""
 
 pres_bool = False
 """bool: True iff the presence method is used instead of frequency method
@@ -31,7 +31,7 @@ learning_path = [
                   # '../data/learning_set/neg.txt'
                 ]
 """list: list of learning sets paths.
-WARNING: path in same order than class_name
+WARNING: paths in same order than class_name
 """
 
 test_path = [
@@ -41,6 +41,6 @@ test_path = [
               # '../data/test_set/neg.txt'
             ]
 """list: list of test sets paths.
-WARNING: path in same order than class_name
+WARNING: paths in same order than class_name
 """
 

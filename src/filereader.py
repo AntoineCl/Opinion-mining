@@ -1,4 +1,4 @@
-"""This file contains function for reading of learning set and formatting."""
+"""This file contains functions for reading of learning set and formatting."""
 
 import os
 import nltk
@@ -10,11 +10,12 @@ pos_conversion = {
                   'NOUN': 'n',
                   'VERB': 'v',
                   }
-"""dict: is used to convert POS tag of NLTK to POS tag of Sentiword"""
+"""dict: Dictionary used to convert POS tag of NLTK to POS tag of Sentiword"""
 
 def formatting(tokens):
-  """Need that words are in same format with or without POS tag. The format is
-  word.X where X is:
+  """It's necessary that words are in same format with or without POS tag.
+
+  The format is word.X where X is:
   x (not POS tag)
   a (POS tag: adjective)
   r (POS tag: adverb)
@@ -29,7 +30,7 @@ def formatting(tokens):
   Returns
   -------
   list
-    Each word of 'tokens' list is formatting
+    Each word of 'tokens' list is formatting.
   """
   tagged = nltk.pos_tag(tokens, 'universal')
   newtagged = []
@@ -43,16 +44,17 @@ def formatting(tokens):
   return newtokens
 
 def tokenize_string(string):
-  """Tokenize and formats a string (the string is the content of a file).
+  """Tokenize and formats a string.
 
   Parameters
   ----------
   string : str
+    The string is the content of a file.
 
   Returns
   -------
   list
-    Each word of 'string' is formatting
+    Each word of 'string' is formatting.
   """
   return formatting(nltk.word_tokenize(string))
 
@@ -62,36 +64,15 @@ def tokenize_file(filename):
   Parameters
   ----------
   filename : str
-    Relative path
+    Relative path of a file
   Returns
   -------
   list
-    Each word of 'filename' is formatting
+    Each word of 'filename' is formatting.
   """
   filereader = open(filename, 'r')
   string = filereader.read()
   filereader.close()
   tokens = tokenize_string(string)
   return tokens
-
-
-# def tokenize_dir(dirname):
-  # file_list = os.listdir(dirname)
-  # tokens = []
-  # for f in file_list:
-    # tokens += tokenize_file(directory + f)
-  # return tokens
-
-
-
-# def tokenize_set():
-  # n = len(learning_path)
-  # tokens = []
-  # for i in range(n):
-    # if os.path.isdir(path):
-      # tokens += tokenize_dir(path, class_name[i])
-    # else:
-      # tokens += tokenize_file(path, class_name[i])
-  # return tokens
-
 

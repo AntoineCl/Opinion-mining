@@ -3,7 +3,7 @@ from user_param import class_name, test_path
 from initialisation_class import nbr_cl
 
 def stats(result):
-  """Return the ratio of documents properly classified
+  """Return the ratio of documents properly classified.
 
   Parameters
   ----------

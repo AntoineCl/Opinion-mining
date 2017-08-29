@@ -1,4 +1,4 @@
-"""This file contains all computation methods for naive bayesian classification"""
+"""This file contains all computation methods for naive bayesian classification."""
 
 import numpy as np
 import os
@@ -8,10 +8,10 @@ from vocabulary import get_voc, get_voc_size, get_voc_count
 from filereader import tokenize_string, tokenize_file
 
 voc = {}
-"""dict: vocabulary used for classification"""
+"""dict: Vocabulary used for classification"""
 
 voc_size = 0
-"""int: size of vocabulary"""
+"""int: Size of vocabulary"""
 
 def proba_naive_class(cl):
   """Return the uniform probability of a class.
@@ -19,7 +19,7 @@ def proba_naive_class(cl):
   Parameters
   ----------
   cl : string
-    a name class
+    A name class
 
   Returns
   -------
@@ -33,7 +33,7 @@ def proba_weighted_class(cl):
   Parameters
   ----------
   cl : str
-    a name class
+    A name class
 
   Returns
   -------
@@ -43,7 +43,7 @@ def proba_weighted_class(cl):
   return float(class_dict[cl]['nbr_occ'])/get_sum_learning()
 
 def add_one(word, cl):
-  """Apply add-one smoothing (see theory).
+  """Apply add-one smoothing to avoid a fraction being zero (see theory).
 
   Parameters
   ----------
@@ -74,26 +74,25 @@ def frequency(n):
   return n
 
 def presence(n):
-  """This function is intended to project an integer in {0, 1}.
-  See theory for utility.
-  """
+  """This function is intended to project an integer in {0, 1}."""
   return 0 if n == 0 else 1
 
 def proba_doc(doc, cl):
   """Return the probability of a document knowing a class.
+
   See theory for computation method.
 
   Parameters
   ----------
   doc : list
-    a document tokenized into a list
+    A document tokenized into a list
   cl : str
-    a class name
+    A class name
 
   Returns
   -------
   float
-    return product(P(w|cl)**exp)
+    Return product(P(w|cl)**exp)
   """
   prod = 1
   voc_tmp = {}
@@ -113,14 +112,15 @@ def proba_doc(doc, cl):
 
 def estim_bayes(doc, cl):
   """Return the probability a document belong to a class.
+
   See theory for computation method.
 
   Parameters
   ----------
   doc : list
-    a document tokenized into a list
+    A document tokenized into a list
   cl : str
-    a class name
+    A class name
 
   Returns
   -------
@@ -139,12 +139,12 @@ def doc_classification(doc):
   Parameters
   ----------
   doc : list
-    a document tokenized into a list
+    A document tokenized into a list
 
   Returns
   -------
   str
-    the name of the most likely class
+    The name of the most likely class
   """
   class_estim = []
   for i in range(nbr_cl):

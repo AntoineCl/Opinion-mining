@@ -1,4 +1,5 @@
 """In this file we define the vocabulary used for bayesian classification.
+
 The vocabulary has the following structure:
 {word1 : {classe1 : nbr_occ_in_classe1,
           classe2 : ...,
@@ -14,17 +15,18 @@ from nltk.corpus import sentiwordnet as swn
 
 
 voc = {}
-"""dict: vocabulary used for classification"""
+"""dict: Vocabulary used for classification"""
 
 voc_size = 0
-"""int: size of vocabulary"""
+"""int: Size of vocabulary"""
 
 intern_dict = {}
-"""dict: necessary for construction of voc"""
+"""dict: Necessary for construction of voc"""
 
 def init_intern_dict():
   """Initialize inter_dict.
-  Keys are name of class and values are 0
+
+  Keys are name of class and values are 0.
   """
   for name in class_name:
     intern_dict[name] = 0
@@ -40,7 +42,7 @@ def add_key(dic, key):
   Returns
   -------
   None
-    The value of the added key is a copy of inter_dict
+    The value of the added key is a copy of inter_dict.
   """
   global voc_size
   if key not in dic:
@@ -49,19 +51,20 @@ def add_key(dic, key):
 
 def condition_first_opscore(words, threshold):
   """Condition on value of opinion score of a word in Sentiword.
+
   The used opinion score is that of first word in the synonymous list.
 
   Parameters
   ----------
   words : list
-    list of synonymous
+    List of SentiSynset objects
   threshold : float
-    the threshold of opinion score
+    The threshold of opinion score
 
   Returns
   -------
   bool
-    Return True iff the opinion score is greater than threshold
+    Return True iff the opinion score is greater than threshold.
   """
   if threshold == 0:
     return True
@@ -71,20 +74,21 @@ def condition_first_opscore(words, threshold):
 
 def condition_average_opscore(words, threshold):
   """Condition on value of opinion score of a word in Sentiword.
-  The used opinion score is the average of opinion scores of word in the
+
+  The used opinion score is the average of opinion scores of words in the
   synonymous list.
 
   Parameters
   ----------
   words : list
-    list of synonymous
+    List of SentiSynset objects
   threshold : float
-    the threshold of opinion score
+    The threshold of opinion score
 
   Returns
   -------
   bool
-    Return True iff the opinion score is greater than threshold
+    Return True iff the opinion score is greater than threshold.
   """
   if threshold == 0:
     return True
@@ -102,6 +106,7 @@ def condition(words):
   Parameters
   ----------
   words : list
+    List of SentiSynset objects
 
   Returns
   -------
@@ -119,19 +124,16 @@ def voc_corpus():
   Returns
   -------
   None
-    The vocabulary is constructed
+    The vocabulary is constructed.
   """
   from learning_class import learning
   learning()
   from learning_class import tokenized_learning_class
   words = []
   for tokens in tokenized_learning_class.values():
-    # for w in tokens:
-      # words.append(w)
     words += tokens
   freq = nltk.FreqDist(words)
   words_freq = map(lambda (a, b) : a, freq.most_common())
-
   for i in range(len(words_freq)):
     if pos_bool:
       list_senti_synsets = swn.senti_synsets(words_freq[i][:-2], words_freq[i][-1])
@@ -155,12 +157,9 @@ def select_voc(voc_list):
   -------
   None
   """
-  n = len(voc_list)
-  for i in range(n - 1, -1, -1):
-    if voc_size < max_voc_size:
-      add_key(voc, voc_list[i][0])
-    else:
-      break
+  n = min(len(voc_list), max_voc_size)
+  for i in range(n):
+    add_key(voc, voc_list[i][0])
 
 def voc_sentiword():
   """Construct the vocabulary based on words with the biggest opinion score in
@@ -172,7 +171,7 @@ def voc_sentiword():
   Returns
   -------
   None
-    The vocabulary is constructed
+    The vocabulary is constructed.
   """
   res = {}
   for s_word in swn.all_senti_synsets():
@@ -184,14 +183,15 @@ def voc_sentiword():
       pos_tag = 'x'
     key = w + '.' + pos_tag
     if key not in res:
-      res[key] = (s_word.pos_score(), s_word.neg_score())
+      if s_word.pos_score() >= threshold or s_word.neg_score() >= threshold:
+        res[key] = (s_word.pos_score(), s_word.neg_score())
   sorted_res = sorted(res.items(), key = lambda t : max(t[1][0], t[1][1]))
   sorted_res.reverse()
   select_voc(sorted_res)
 
 def define_voc():
   """Main function for define vocabulary by selecting the appropriated method
-  (with or without POS tagging)
+  depending of user parameters.
 
   Parameters
   ----------
@@ -199,22 +199,24 @@ def define_voc():
   Returns
   -------
   None
-    The vocabulary is constructed
+    The vocabulary is constructed.
   """
   init_intern_dict()
   if corpus_bool:
     voc_corpus()
   else:
     voc_sentiword()
+  print 'voc size : ' + str(voc_size)
 
 def get_voc():
+  """Return the vocabulary."""
   return voc
 
 def get_voc_size():
+  """Return the size of vocabulary."""
   return voc_size
 
 def get_voc_count(word, classname):
+  """Return the number of times a word appears in set learning of a class."""
   return voc[word][classname]
 
-def set_voc_count(word, classname):
-  voc[word][classname] += 1

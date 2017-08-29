@@ -1,29 +1,11 @@
-#!/usr/bin/env python
-#-*- coding: utf-8 -*-
-
 def execute():
-  """Main function of project. Uses other methods for classify test set.
-
-  Parameters
-  ----------
-
-  Returns
-  -------
-  None
-  """
+  """Main function of project. Uses other methods for classify test set."""
   initialize_class()
-
   define_voc()
-  print 'voc define'
-
   learning()
-  print 'end learning'
-
   result = classification()
-  # print result
-  print ""
-
-  print stats(result)
+  stat = stats(result)
+  print stat
 
 if __name__ == '__main__':
   from initialisation_class import initialize_class
