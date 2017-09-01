@@ -40,6 +40,9 @@ More informations about user parameters in 'src/user_param.py'.
 Data set:
 =========
 
+To store reviews, there are two ways. Either a directory containing files and
+each file contains only one review, or a file whose each line is one review.
+
 Currently there is one review in each class in data set to not overload this
 repository.
 You can find more data here:
