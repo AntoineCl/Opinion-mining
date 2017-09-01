@@ -31,7 +31,7 @@ are relative paths from root of the project, but you can use absolute path on
 your computer.
 
 To obtain good result, we recommend setting 'threshold' to 0.2 . Size of
-vocabulary sould depend of corpus size. We recommend setting 'max_voc_size'
+vocabulary should depend of corpus size. We recommend setting 'max_voc_size'
 between 300 (for small learning set) and 5000 (for very big learning set). The
 same you should activate 'corpus_bool' only with medium or big learning set.
 
