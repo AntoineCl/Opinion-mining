@@ -8,12 +8,12 @@ pos_bool = False
 
 corpus_bool = False
 """bool: boolean to determine if vocabulary is based on frequent opinion words
-in learning set
+in learning set.
 """
 
 threshold = 0.2
-"""float: minimum value of opinion score of selected words for vocabulary
-construction
+"""float: Minimum value of opinion score of selected words for vocabulary
+construction. This value is between 0.0 and 1.0
 """
 
 max_voc_size = 3000
@@ -25,22 +25,21 @@ pres_bool = False
 """
 
 learning_path = [
-                  '../data/learning_set/pos/',
-                  '../data/learning_set/neg/'
-                  # '../data/learning_set/pos.txt',
-                  # '../data/learning_set/neg.txt'
+                  'data/learning_set/pos/',
+                  'data/learning_set/neg/'
+                  # 'data/learning_set/pos.txt',
+                  # 'data/learning_set/neg.txt'
                 ]
 """list: list of learning sets paths.
 WARNING: paths in same order than class_name
 """
 
 test_path = [
-              '../data/test_set/pos/',
-              '../data/test_set/neg/'
-              # '../data/test_set/pos.txt',
-              # '../data/test_set/neg.txt'
+              'data/test_set/pos/',
+              'data/test_set/neg/'
+              # 'data/test_set/pos.txt',
+              # 'data/test_set/neg.txt'
             ]
 """list: list of test sets paths.
 WARNING: paths in same order than class_name
 """
-

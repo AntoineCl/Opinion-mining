@@ -9,9 +9,10 @@ The vocabulary has the following structure:
 """
 
 from user_param import class_name, pos_bool, corpus_bool, threshold, max_voc_size
-from filereader import formatting
+from formatter import formatting
 import nltk
 from nltk.corpus import sentiwordnet as swn
+from text_unidecode import unidecode
 
 
 voc = {}
@@ -21,7 +22,7 @@ voc_size = 0
 """int: Size of vocabulary"""
 
 intern_dict = {}
-"""dict: Necessary for construction of voc"""
+"""dict: Internal structure of vocabulary"""
 
 def init_intern_dict():
   """Initialize inter_dict.
@@ -135,6 +136,7 @@ def voc_corpus():
   freq = nltk.FreqDist(words)
   words_freq = map(lambda (a, b) : a, freq.most_common())
   for i in range(len(words_freq)):
+    words_freq[i] = unidecode(words_freq[i])
     if pos_bool:
       list_senti_synsets = swn.senti_synsets(words_freq[i][:-2], words_freq[i][-1])
     else:
@@ -206,7 +208,6 @@ def define_voc():
     voc_corpus()
   else:
     voc_sentiword()
-  print 'voc size : ' + str(voc_size)
 
 def get_voc():
   """Return the vocabulary."""

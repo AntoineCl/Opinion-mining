@@ -1,9 +1,9 @@
-"""This file contains main function for learning phase."""
+"""This file contains main functions for learning phase."""
 
 import os
 import nltk
 from vocabulary import voc, get_voc
-from filereader import tokenize_string, tokenize_file
+from formatter import tokenize_string, tokenize_file
 from initialisation_class import class_dict, add_count
 from user_param import class_name, corpus_bool, threshold, learning_path
 
@@ -57,7 +57,7 @@ def learning_dir(directory, classname):
   Parameters
   ----------
   directory : str
-    Relative path of directory containing files
+    Path of directory containing files
   classname : str
 
   Returns
@@ -82,7 +82,7 @@ def learning_file(filename, classname):
   Parameters
   ----------
   filename : str
-    Relative path of file
+    Path of file
   classname : str
 
   Returns
@@ -92,14 +92,13 @@ def learning_file(filename, classname):
   """
   filereader = open(filename, 'r')
   line = filereader.readline()
-  string = line
-  i = 1
+  tokens = []
+  i = 0
   while line != '':
-    line = filereader.readline()
-    string += line
     i += 1
+    tokens += tokenize_string(line)
+    line = filereader.readline()
   filereader.close()
-  tokens = tokenize_string(string)
   add_count(classname, i)
   tokenized_learning_class[classname] = tokens
 

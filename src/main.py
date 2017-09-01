@@ -5,7 +5,7 @@ def execute():
   learning()
   result = classification()
   stat = stats(result)
-  print stat
+  print 'Ratio of documents well classified : ' + str(stat)
 
 if __name__ == '__main__':
   from initialisation_class import initialize_class

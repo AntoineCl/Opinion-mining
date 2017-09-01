@@ -5,7 +5,7 @@ import os
 from user_param import class_name, pres_bool, test_path
 from initialisation_class import nbr_cl, class_dict, get_sum_learning
 from vocabulary import get_voc, get_voc_size, get_voc_count
-from filereader import tokenize_string, tokenize_file
+from formatter import tokenize_string, tokenize_file
 
 voc = {}
 """dict: Vocabulary used for classification"""
@@ -38,12 +38,12 @@ def proba_weighted_class(cl):
   Returns
   -------
   float
-    The ratio of number of documents in 'cl' class on total number of documents
+    The ratio of number of documents in 'cl' class on total number of documents.
   """
   return float(class_dict[cl]['nbr_occ'])/get_sum_learning()
 
 def add_one(word, cl):
-  """Apply add-one smoothing to avoid a fraction being zero (see theory).
+  """Apply add-one smoothing to avoid a fraction being zero.
 
   Parameters
   ----------
@@ -129,9 +129,7 @@ def estim_bayes(doc, cl):
   """
   a = proba_weighted_class(cl)
   b = proba_doc(doc, cl)
-  print str(a) + ' * ' + str(b)
   return a * b
-  # return proba_weighted_class(cl)*proba_doc(doc, cl)
 
 def doc_classification(doc):
   """Return the most likely class of a document.
@@ -161,7 +159,8 @@ def classification():
   Returns
   -------
   dict
-    The keys are paths of test set and values are their estimated classification.
+    The keys are paths of test set and values are their estimated
+    classification.
   """
   global voc
   global voc_size

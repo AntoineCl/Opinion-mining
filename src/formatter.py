@@ -2,6 +2,7 @@
 
 import os
 import nltk
+from text_unidecode import unidecode
 from user_param import pos_bool, learning_path
 
 pos_conversion = {
@@ -13,7 +14,7 @@ pos_conversion = {
 """dict: Dictionary used to convert POS tag of NLTK to POS tag of Sentiword"""
 
 def formatting(tokens):
-  """It's necessary that words are in same format with or without POS tag.
+  """Convert words tokenized in same format with or without POS tag.
 
   The format is word.X where X is:
   x (not POS tag)
@@ -30,7 +31,7 @@ def formatting(tokens):
   Returns
   -------
   list
-    Each word of 'tokens' list is formatting.
+    Each word of 'tokens' list is formatted.
   """
   tagged = nltk.pos_tag(tokens, 'universal')
   newtagged = []
@@ -54,9 +55,9 @@ def tokenize_string(string):
   Returns
   -------
   list
-    Each word of 'string' is formatting.
+    Each word of 'string' is formatted.
   """
-  return formatting(nltk.word_tokenize(string))
+  return formatting(nltk.word_tokenize(unidecode(string)))
 
 def tokenize_file(filename):
   """Tokenize and formats the content of a file.
@@ -64,11 +65,11 @@ def tokenize_file(filename):
   Parameters
   ----------
   filename : str
-    Relative path of a file
+    Path of a file
   Returns
   -------
   list
-    Each word of 'filename' is formatting.
+    Each word of 'filename' is formatted.
   """
   filereader = open(filename, 'r')
   string = filereader.read()

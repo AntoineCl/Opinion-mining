@@ -35,6 +35,5 @@ def stats(result):
         j += 1
         line = filereader.readline()
       filereader.close()
-
-  return good_classified / data
+  return good_classified / data if data != 0 else float('nan')
 

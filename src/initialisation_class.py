@@ -1,7 +1,7 @@
 from user_param import class_name
 
 nbr_cl = len(class_name)
-"""int: Class number"""
+"""int: Number of classes"""
 
 class_dict = {}
 """dict: Dictionary where each key is a name class and each value is an other
@@ -30,6 +30,9 @@ def add_count(cl, n):
 
   Parameters
   ----------
+  cl : str
+    A name class
+  n : int
 
   Returns
   -------
