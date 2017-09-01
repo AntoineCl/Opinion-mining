@@ -4,9 +4,9 @@ Introduction:
 This project implements a naive bayesian classifier for a particular type of
 document classification: sentiment analysis (also called opinion mining).
 If these notions are foreign to you, please look at
--> https://en.wikipedia.org/wiki/Naive_Bayes_classifier#Document_classification
+https://en.wikipedia.org/wiki/Naive_Bayes_classifier#Document_classification
 and
--> https://www.cs.cornell.edu/home/llee/papers/sentiment.pdf
+https://www.cs.cornell.edu/home/llee/papers/sentiment.pdf
 for first concept.
 
 Note that this project is intended to be an implementation of naive bayesian
@@ -44,21 +44,24 @@ Currently there is one review in each class in data set to not overload this
 repository.
 You can find more data here:
 
--> https://www.cs.cornell.edu/people/pabo/movie-review-data/rt-polaritydata.tar.gz
+https://www.cs.cornell.edu/people/pabo/movie-review-data/rt-polaritydata.tar.gz
 
--> https://www.cs.cornell.edu/people/pabo/movie-review-data/review_polarity.tar.gz
-   This is data set mainly used to experiment precision of this project. We
-   recommend use it because it's larger.
+https://www.cs.cornell.edu/people/pabo/movie-review-data/review_polarity.tar.gz
+This is data set mainly used to experiment precision of this project. We
+recommend use it because it's larger.
 
 External libraries:
 ===================
 
 To run this project, you needs to external libraries:
+
 numpy:
--> http://www.numpy.org/
+http://www.numpy.org/
+
 nltk:
--> http://www.nltk.org/
+http://www.nltk.org/
+
 text-unidecode:
--> https://pypi.python.org/pypi/text-unidecode/1.0
+https://pypi.python.org/pypi/text-unidecode/1.0
 
 
